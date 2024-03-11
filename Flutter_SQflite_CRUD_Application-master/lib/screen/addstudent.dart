@@ -42,7 +42,7 @@ class _AddStudentState extends State<AddStudent> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Form(
-            key: _formKey, // The form key
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -71,8 +71,6 @@ class _AddStudentState extends State<AddStudent> {
                 ),
 
                 const SizedBox(height: 50),
-
-                // Name input field with validation
                 TextFormField(
                   keyboardType: TextInputType.name,
                   controller: _nameController,
@@ -92,8 +90,6 @@ class _AddStudentState extends State<AddStudent> {
                   },
                 ),
                 const SizedBox(height: 20),
-
-                // Class input field with validation
                 TextFormField(
                   keyboardType: TextInputType.text,
                   controller: _classController,
@@ -138,6 +134,7 @@ class _AddStudentState extends State<AddStudent> {
                 // Mobile input field with validation
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  maxLength: 10,
                   controller: _mobileController,
                   decoration: InputDecoration(
                     labelText: "Mobile",
