@@ -2,16 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_10/provider/provider_addstudent.dart';
+import 'package:sqflite_10/screen/textformfield.dart';
 
 class AddStudent extends StatelessWidget {
   const AddStudent({super.key});
 
   @override
   Widget build(BuildContext context) {
-   Provider.of<AddProvider>(context,listen: false).initialization();
+    Provider.of<AddProvider>(context, listen: false).initialization();
     return Consumer<AddProvider>(
-      builder: (context, addStudent, child) => 
-       Scaffold(
+      builder: (context, addStudent, child) => Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('Add Student'),
@@ -56,86 +56,36 @@ class AddStudent extends StatelessWidget {
                       ),
                     ],
                   ),
-      
                   const SizedBox(height: 50),
-                  TextFormField(
-                    keyboardType: TextInputType.name,
+                  ReuseTextFormField(
                     controller: addStudent.nameController,
-                    decoration: InputDecoration(
-                      labelText: "Name",
-                      hintText: 'enter name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a Name';
-                      }
-                      return null;
-                    },
+                    labelText: "Name",
+                    hintText: 'enter name',
+                    keyboardType: TextInputType.name,
+                    validationMessage: 'Please enter a Name',
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    controller: addStudent.classController,
-                    decoration: InputDecoration(
+                  ReuseTextFormField(
+                      controller: addStudent.classController,
                       labelText: "Class",
                       hintText: 'enter class',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a Class';
-                      }
-                      return null;
-                    },
-                  ),
+                      keyboardType: TextInputType.text,
+                      validationMessage: 'Please enter a Class'),
                   const SizedBox(height: 20),
-      
-                  // Guardian input field with validation
-                  TextFormField(
-                    keyboardType: TextInputType.name,
-                    controller: addStudent.guardianController,
-                    decoration: InputDecoration(
+                  ReuseTextFormField(
+                      controller: addStudent.guardianController,
                       labelText: "Guardian",
                       hintText: 'enter Guardian name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a Guardian';
-                      }
-                      return null;
-                    },
-                  ),
+                      keyboardType: TextInputType.name,
+                      validationMessage: 'Please enter a Guardian'),
                   const SizedBox(height: 20),
-      
-                  // Mobile input field with validation
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    maxLength: 10,
-                    controller:addStudent.mobileController,
-                    decoration: InputDecoration(
+                  ReuseTextFormField(
+                      controller: addStudent.mobileController,
                       labelText: "Mobile",
                       hintText: 'Mobile Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a Mobile';
-                      } else if (value.length != 10) {
-                        return 'Mobile number should be 10 digits';
-                      }
-                      return null;
-                    },
-                  ),
+                      maxLength: 10,
+                      keyboardType: TextInputType.number,
+                      validationMessage: 'Please enter Mobile Number'),
                 ],
               ),
             ),

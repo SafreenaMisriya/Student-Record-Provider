@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_10/database/db_model.dart';
 import 'package:sqflite_10/provider/Provider_edit.dart';
+import 'package:sqflite_10/screen/textformfield.dart';
 
 class EditStudent extends StatelessWidget {
   StudentModel student;
@@ -11,25 +12,20 @@ class EditStudent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- Provider.of<EditProvider>(context,listen: false).initiate(
+    Provider.of<EditProvider>(context, listen: false).initiate(
         imagepath: student.imagex,
         name: student.name,
         studentclass: student.classname,
         father: student.father,
         pnumber: student.pnumber);
     return Consumer<EditProvider>(
-      builder: (BuildContext context, editstudent, child) => 
-       Scaffold(
+      builder: (BuildContext context, editstudent, child) => Scaffold(
         appBar: AppBar(
           title: const Text('Edit Student'),
           actions: [
             IconButton(
               onPressed: () {
-                editstudent.editstudentclicked(
-                  context,
-                  student,
-                  editstudent
-                );
+                editstudent.editstudentclicked(context, student, editstudent);
               },
               icon: const Icon(Icons.cloud_upload),
             )
@@ -40,7 +36,7 @@ class EditStudent extends StatelessWidget {
           child: Padding(
               padding: const EdgeInsets.all(20),
               child: Form(
-                key:  editstudent.formKey,
+                key: editstudent.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -48,11 +44,11 @@ class EditStudent extends StatelessWidget {
                     Stack(
                       children: [
                         InkWell(
-                          onTap: () =>  editstudent.editphoto(
-                              context,  editstudent, context),
+                          onTap: () => editstudent.editphoto(
+                              context, editstudent, context),
                           child: CircleAvatar(
                             backgroundImage:
-                                FileImage(File( editstudent.updatedImagepath)),
+                                FileImage(File(editstudent.updatedImagepath)),
                             radius: 80,
                           ),
                         ),
@@ -63,69 +59,12 @@ class EditStudent extends StatelessWidget {
                       children: [
                         const SizedBox(width: 10),
                         Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.name,
+                          child: ReuseTextFormField(
                             controller: editstudent.nameController,
-                            decoration: InputDecoration(
-                              labelText: "Name",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a Name';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.text,
-                            controller:  editstudent.classController,
-                            decoration: InputDecoration(
-                              labelText: "Class",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a Class';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: TextFormField(
+                            labelText: "Name",
+                            hintText: 'enter name',
                             keyboardType: TextInputType.name,
-                            controller:  editstudent.guardianController,
-                            decoration: InputDecoration(
-                              labelText: "Parent",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter Parent Name';
-                              }
-                              return null;
-                            },
+                            validationMessage: 'Please enter a Name',
                           ),
                         ),
                       ],
@@ -135,24 +74,42 @@ class EditStudent extends StatelessWidget {
                       children: [
                         const SizedBox(width: 10),
                         Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            controller:  editstudent.mobileController,
-                            decoration: InputDecoration(
+                          child: ReuseTextFormField(
+                              controller: editstudent.classController,
+                              labelText: "Class",
+                              hintText: 'enter class',
+                              keyboardType: TextInputType.text,
+                              validationMessage: 'Please enter a Class'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: ReuseTextFormField(
+                              controller: editstudent.guardianController,
+                              labelText: "Guardian",
+                              hintText: 'enter Guardian name',
+                              keyboardType: TextInputType.name,
+                              validationMessage: 'Please enter a Guardian'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: ReuseTextFormField(
+                              controller: editstudent.mobileController,
                               labelText: "Mobile",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a Mobile';
-                              } else if (value.length != 10) {
-                                return 'Mobile number should be 10 digits';
-                              }
-                              return null;
-                            },
-                          ),
+                              hintText: 'Mobile Number',
+                              maxLength: 10,
+                              keyboardType: TextInputType.number,
+                              validationMessage:
+                                  'Mobile number should be 10 digits'),
                         ),
                       ],
                     ),

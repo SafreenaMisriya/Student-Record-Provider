@@ -15,7 +15,6 @@ class StudentdataProvider extends ChangeNotifier {
     await intialize();
     if (query.isEmpty) {
       filterStudent = studentList;
-      notifyListeners();
     } else {
       List<StudentModel> s = studentList
           .where((element) =>
@@ -23,7 +22,8 @@ class StudentdataProvider extends ChangeNotifier {
               element.classname.toLowerCase().contains(query.toLowerCase()))
           .toList();
       filterStudent = s;
-      notifyListeners();
+      
     }
+    notifyListeners();
   }
 }

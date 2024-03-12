@@ -120,8 +120,8 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  void detectedYes(ctx, StudentModel student) {
-    deleteStudent(student.id!, ctx);
+  void detectedYes(ctx, StudentModel student) async{
+   await deleteStudent(student.id!, ctx);
     ScaffoldMessenger.of(ctx).showSnackBar(
       const SnackBar(
         content: Text("Successfully Deleted"),

@@ -44,7 +44,7 @@ Future<void> addstudent(StudentModel value, context) async {
 Future<void> deleteStudent(id, context) async {
   await _db.delete('student', where: 'id=?', whereArgs: [id]);
  // getstudentdata();
-  await Provider.of<StudentdataProvider>(context).intialize();
+  await Provider.of<StudentdataProvider>(context,listen: false).intialize();
 }
 
 Future<void> editStudent(
