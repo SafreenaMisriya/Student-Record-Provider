@@ -34,7 +34,6 @@ Future<void> addstudent(StudentModel value, context) async {
       'INSERT INTO student(name,classname,father,pnumber,imagex) VALUES(?,?,?,?,?)',
       [value.name, value.classname, value.father, value.pnumber, value.imagex],
     );
-  //  getstudentdata();
     await Provider.of<StudentdataProvider>(context).intialize();
   } catch (e) {
     stdout.write('Error inserting data: $e');
@@ -43,7 +42,6 @@ Future<void> addstudent(StudentModel value, context) async {
 
 Future<void> deleteStudent(id, context) async {
   await _db.delete('student', where: 'id=?', whereArgs: [id]);
- // getstudentdata();
   await Provider.of<StudentdataProvider>(context,listen: false).intialize();
 }
 
@@ -57,6 +55,5 @@ Future<void> editStudent(
     'imagex': imagex,
   };
   await _db.update('student', dataflow, where: 'id=?', whereArgs: [id]);
-  //getstudentdata();
   await Provider.of<StudentdataProvider>(context).intialize();
 }

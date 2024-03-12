@@ -15,7 +15,7 @@ class ReuseTextFormField extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     required this.keyboardType,
-    this.maxLength ,
+    this.maxLength,
     required this.validationMessage,
   });
 
@@ -36,7 +36,7 @@ class ReuseTextFormField extends StatelessWidget {
       validator: (value) {
         if (value!.isEmpty) {
           return validationMessage;
-        } else if (maxLength != null && value.length !=10) {
+        } else if (maxLength != null && value.length != 10) {
           return 'Mobile number should be 10 digits';
         }
         return null;
