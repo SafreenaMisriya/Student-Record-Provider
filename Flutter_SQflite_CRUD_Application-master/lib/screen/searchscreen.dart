@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:sqflite_10/database/db_functions.dart';
 import 'package:sqflite_10/database/db_model.dart';
 import 'package:sqflite_10/provider/provider_datacontroller.dart';
-import 'package:sqflite_10/screen/editstudent.dart';
 import 'package:sqflite_10/screen/studentdetails.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -55,21 +54,7 @@ class SearchScreen extends StatelessWidget {
                                 ),
                                 title: Text(finduserItem.name),
                                 subtitle: Text('CLASS : ${finduserItem.classname}'),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: Colors.green,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditStudent(student: finduserItem),
-                                        ));
-                                      },
-                                    ),
+                                trailing: 
                                     IconButton(
                                       icon: const Icon(
                                         Icons.delete,
@@ -79,8 +64,6 @@ class SearchScreen extends StatelessWidget {
                                         deletestudent(context, finduserItem);
                                       },
                                     ),
-                                  ],
-                                ),
                                 onTap: () {
                                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                                     builder: (ctr) => StudentDetails(stdetails: finduserItem),
