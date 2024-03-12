@@ -109,7 +109,7 @@ class EditStudent extends StatelessWidget {
                               maxLength: 10,
                               keyboardType: TextInputType.number,
                               validationMessage:
-                                  'Mobile number should be 10 digits'),
+                                 'Please enter Mobile Number'),
                         ),
                       ],
                     ),
