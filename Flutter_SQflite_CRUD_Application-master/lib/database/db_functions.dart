@@ -55,5 +55,5 @@ Future<void> editStudent(
     'imagex': imagex,
   };
   await _db.update('student', dataflow, where: 'id=?', whereArgs: [id]);
-  await Provider.of<StudentdataProvider>(context).intialize();
+  await Provider.of<StudentdataProvider>(context,listen: false).intialize();
 }

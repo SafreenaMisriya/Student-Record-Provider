@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_10/database/db_functions.dart';
@@ -12,10 +13,9 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<StudentdataProvider>(context,listen: false).getsearchdata('');
+    Provider.of<StudentdataProvider>(context, listen: false).getsearchdata('');
     return Consumer<StudentdataProvider>(
-      builder: (context, studentdata, child) => 
-       Scaffold(
+      builder: (context, studentdata, child) => Scaffold(
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(12),
@@ -24,7 +24,7 @@ class SearchScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: TextField(
-                    onChanged: (value) =>studentdata.getsearchdata(value),
+                    onChanged: (value) => studentdata.getsearchdata(value),
                     decoration: const InputDecoration(
                       labelText: 'Search',
                       suffixIcon: Icon(
@@ -35,56 +35,61 @@ class SearchScreen extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: studentdata.filterStudent.length,
-                    itemBuilder: (context, index) {
-                      final finduserItem = studentdata.filterStudent[index];
-                      return Card(
-                        color: const Color.fromARGB(255, 160, 207, 246),
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: FileImage(File(finduserItem.imagex)),
+                  child: studentdata.filterStudent.isEmpty
+                      ?const Center(
+                          child: Text(
+                            'No results found',
+                            style: TextStyle(fontSize: 16),
                           ),
-                          title: Text(finduserItem.name),
-                          subtitle: Text('CLASS : ${finduserItem.classname}'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
+                        )
+                      : ListView.builder(
+                          itemCount: studentdata.filterStudent.length,
+                          itemBuilder: (context, index) {
+                            final finduserItem = studentdata.filterStudent[index];
+                            return Card(
+                              color: const Color.fromARGB(255, 160, 207, 246),
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: FileImage(File(finduserItem.imagex)),
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditStudent(student: finduserItem),
+                                title: Text(finduserItem.name),
+                                subtitle: Text('CLASS : ${finduserItem.classname}'),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditStudent(student: finduserItem),
+                                        ));
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () {
+                                        deletestudent(context, finduserItem);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                    builder: (ctr) => StudentDetails(stdetails: finduserItem),
                                   ));
                                 },
                               ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  deletestudent(context, finduserItem);
-                                },
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (ctr) =>
-                                  StudentDetails(stdetails: finduserItem),
-                            ));
+                            );
                           },
                         ),
-                      );
-                    },
-                  ),
                 ),
               ],
             ),
@@ -100,7 +105,7 @@ class SearchScreen extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           title: const Text('Delete'),
-          content: const Text('Do You Want delete the list ?'),
+          content: const Text('Do You Want to delete the list?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -120,8 +125,9 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  void detectedYes(ctx, StudentModel student) async{
-   await deleteStudent(student.id!, ctx);
+  void detectedYes(ctx, StudentModel student) async {
+    deleteStudent(student.id!, ctx);
+    Provider.of<StudentdataProvider>(ctx, listen: false).getsearchdata('');
     ScaffoldMessenger.of(ctx).showSnackBar(
       const SnackBar(
         content: Text("Successfully Deleted"),
