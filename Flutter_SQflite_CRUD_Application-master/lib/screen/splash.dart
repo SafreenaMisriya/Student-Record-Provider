@@ -1,30 +1,21 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:sqflite_10/screen/homescreen.dart';
 
-class splashScreen extends StatefulWidget {
-  const splashScreen({super.key});
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
-  @override
-  State<splashScreen> createState() => _splashScreenState();
-}
-
-class _splashScreenState extends State<splashScreen> {
-  @override
-  void initState() {
-     Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const HomeScreeen())));
-    
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+        const Duration(seconds: 2),
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const HomeScreeen())));
     return Scaffold(
       body: Center(
-        child: Image.asset('assets/splash.png',),
+        child: Image.asset(
+          'assets/splash.png',
+        ),
       ),
     );
   }
